@@ -7,8 +7,8 @@ public class UserModificationTests extends TestBase {
     @Test
     public void modifyUser() {
         app.goToMainPage();
-        app.getUserHelper().fillUserForm(new UserData("Test", "Lalala", "Test 4", "55545555", "test2@test.pl"));
         app.getUserHelper().editUser();
+        app.getUserHelper().fillUserForm(new UserData("Test", "Lalala", "Test 4", "55545555", "test2@test.pl"));
         app.getUserHelper().updateUser();
         app.getUserHelper().returnToHomePage();
     }
