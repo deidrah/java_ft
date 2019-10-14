@@ -1,9 +1,6 @@
 package ru.stqa.pft.addressbook.appManager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 
 public class HelperBase {
 
@@ -20,7 +17,7 @@ public class HelperBase {
     protected void clear(By locator) {
         wd.findElement(locator).clear();
     }
-    
+
 
     protected void type(By locator, String text) {
         click(locator);
@@ -44,4 +41,6 @@ public class HelperBase {
             return false;
         }
     }
+
+
 }

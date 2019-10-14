@@ -41,7 +41,8 @@ public class UserHelper extends HelperBase {
 
     public void deleteUser() { click(By.xpath("(//input[@name='update'])[2]")); }
 
-    public void acceptAlert() { wd.switchTo().alert().accept();; }
+    public void updateUser() { click(By.name("update")); }
 
+    public void acceptAlert() { wd.switchTo().alert().accept();; }
 
 }
