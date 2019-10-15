@@ -29,6 +29,7 @@ public class UserHelper extends HelperBase {
         wd.findElement(By.name("email")).sendKeys(userData.getEmail());
     }
 
+
     public void submitUserForm() {
         click(By.name("submit"));
     }
@@ -38,6 +39,8 @@ public class UserHelper extends HelperBase {
     }
 
     public void editUser() { click(By.xpath("//img[@alt='Edit']")); }
+
+    public void selectUser() { click(By.id("1")); }
 
     public void deleteUser() { click(By.xpath("(//input[@name='update'])[2]")); }
 
