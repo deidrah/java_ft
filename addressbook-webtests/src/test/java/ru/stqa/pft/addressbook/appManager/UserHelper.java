@@ -40,7 +40,9 @@ public class UserHelper extends HelperBase {
 
     public void editUser() { click(By.xpath("//img[@alt='Edit']")); }
 
-    public void selectUser() { click(By.id("1")); }
+    public void selectUser() {
+        click(By.name("selected[]"));
+    }
 
     public void deleteUser() { click(By.xpath("(//input[@name='update'])[2]")); }
 
