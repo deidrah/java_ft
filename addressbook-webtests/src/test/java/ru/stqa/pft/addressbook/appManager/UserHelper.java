@@ -57,4 +57,14 @@ public class UserHelper extends HelperBase {
 
     public void acceptAlert() { wd.switchTo().alert().accept();; }
 
+    public boolean isThereAUser() {
+        return isElementPresent(By.name("selected[]"));
+    }
+
+    public void createUser(UserData user, boolean b) {
+        addNewUser();
+        fillUserForm(new UserData("Test", "Test", "Test 5", "555555555", "test@test.pl", "test1"), true);
+        submitUserForm();
+        goToHomePage();
+    }
 }
