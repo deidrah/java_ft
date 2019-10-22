@@ -10,6 +10,6 @@ public class UserDeletionTests extends TestBase {
         app.getUserHelper().selectUser();
         app.getUserHelper().deleteUser();
         app.getUserHelper().acceptAlert();
-        app.getUserHelper().returnToHomePage();
+        app.getUserHelper().goToHomePage();
     }
 }

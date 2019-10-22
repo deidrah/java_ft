@@ -9,8 +9,8 @@ public class AddUser extends TestBase {
   public void testAddUser() throws Exception {
     app.goToMainPage();
     app.getUserHelper().addNewUser();
-    app.getUserHelper().fillUserForm(new UserData("Test", "Test", "Test 5", "555555555", "test@test.pl"));
+    app.getUserHelper().fillUserForm(new UserData("Test", "Test", "Test 5", "555555555", "test@test.pl", "test1"), true);
     app.getUserHelper().submitUserForm();
-    app.getUserHelper().returnToHomePage();
+    app.getUserHelper().goToHomePage();
   }
 }

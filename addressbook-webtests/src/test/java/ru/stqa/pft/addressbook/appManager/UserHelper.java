@@ -1,7 +1,10 @@
 package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
 
 public class UserHelper extends HelperBase {
@@ -14,7 +17,7 @@ public class UserHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void fillUserForm(UserData userData) {
+    public void fillUserForm(UserData userData, boolean creation) {
         click(By.name("firstname"));
         clear(By.name("firstname"));
         wd.findElement(By.name("firstname")).sendKeys(userData.getFirstname());
@@ -27,14 +30,18 @@ public class UserHelper extends HelperBase {
         click(By.name("email"));
         clear(By.name("email"));
         wd.findElement(By.name("email")).sendKeys(userData.getEmail());
+        if (creation) {
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
+        } else {
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
     }
-
 
     public void submitUserForm() {
         click(By.name("submit"));
     }
 
-    public void returnToHomePage() {
+    public void goToHomePage() {
         click(By.xpath("//img[@alt='Addressbook']"));
     }
 
