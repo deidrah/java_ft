@@ -32,7 +32,7 @@ public class ApplicationManager {
         }
 
         wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-        wd.get("http://addressbook.pl/addressbook/group.php");
+        wd.get("http://addressbook.pl/addressbook2/group.php");
         userHelper = new UserHelper(wd);
         sessionHelper = new SessionHelper(wd);
         navigationHelper = new NavigationHelper(wd);
@@ -41,7 +41,7 @@ public class ApplicationManager {
     }
 
     public void goToMainPage() {
-      wd.get("http://addressbook.pl/addressbook/");
+      wd.get("http://addressbook.pl/addressbook2/");
       wd.findElement(By.xpath("//img[@alt='Addressbook']")).click();
     }
 

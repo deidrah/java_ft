@@ -3,9 +3,13 @@ package ru.stqa.pft.addressbook.appManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserHelper extends HelperBase {
 
@@ -45,13 +49,15 @@ public class UserHelper extends HelperBase {
         click(By.xpath("//img[@alt='Addressbook']"));
     }
 
-    public void editUser() { click(By.xpath("//img[@alt='Edit']")); }
-
-    public void selectUser() {
-        click(By.name("selected[]"));
+    public void editUser(int index) {
+        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
     }
 
-    public void deleteUser() { click(By.xpath("(//input[@name='update'])[2]")); }
+    public void selectUser(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
+    }
+
+    public void deleteUser() { click(By.xpath("(//input[@value='Delete'])")); }
 
     public void updateUser() { click(By.name("update")); }
 
@@ -61,10 +67,25 @@ public class UserHelper extends HelperBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public void createUser(UserData user, boolean b) {
+    public void createUser(UserData user) {
         addNewUser();
-        fillUserForm(new UserData("Test", "Test", "Test 5", "555555555", "test@test.pl", "test1"), true);
+        fillUserForm(user, true);
         submitUserForm();
         goToHomePage();
     }
+
+    public List<UserData> getUserList() {
+        List<UserData> users = new ArrayList<UserData>();
+        List<WebElement> elements = wd.findElements(By.name("entry"));
+        for (WebElement element : elements) {
+            List<WebElement> cells = element.findElements(By.tagName("td"));
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            String firstName = cells.get(2).getText();
+            String lastName = cells.get(1).getText();
+            UserData user = new UserData(id, firstName, lastName, null, null, null, null);
+            users.add(user);
+        }
+        return users;
+    }
+
 }

@@ -11,17 +11,26 @@ public class HelperBase {
     }
 
     protected void click(By locator) {
-        wd.findElement(locator).click();
+        if (isElementPresent(locator)) {
+            wd.findElement(locator).click();
+        }
     }
 
     protected void clear(By locator) {
-        wd.findElement(locator).clear();
+        if (isElementPresent(locator)) {
+            wd.findElement(locator).clear();
+        }
     }
 
     protected void type(By locator, String text) {
         click(locator);
-        wd.findElement(locator).clear();
-        wd.findElement(locator).sendKeys(text);
+
+        if (isElementPresent(locator)) {
+            wd.findElement(locator).clear();
+            if (text != null) {
+                wd.findElement(locator).sendKeys(text);
+            }
+        }
     }
 
 
