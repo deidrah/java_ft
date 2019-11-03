@@ -8,9 +8,11 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserHelper extends HelperBase {
 
@@ -103,7 +105,7 @@ public class UserHelper extends HelperBase {
     }
 
     public UserData infoFromEditForm(UserData user) {
-        initContactModificationById(user.getId());
+        initUserModificationById(user.getId());
         String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
         String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
         String homePhone = wd.findElement(By.name("home")).getAttribute("value");
@@ -119,7 +121,21 @@ public class UserHelper extends HelperBase {
                 .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone).withAddressOne(addressOne).withAddressTwo(addressTwo).withEmailOne(emailOne).withEmailTwo(emailTwo).withEmailThree(emailThree);
     }
 
-    private void initContactModificationById(int id) {
+    public List<String> infoFromDetailForm(UserData user) {
+        initUserDetailById(user.getId());
+        List<String> result = Arrays
+                .asList(wd.findElement(By.xpath("//div[@id='content']")).getText()
+                .replaceAll("Member of: [a-z0-9]+", "")
+                .split("\n")).stream().filter(s -> ! s.equals("")).collect(Collectors.toList());
+        wd.navigate().back();
+        return result;
+    }
+
+    private void initUserDetailById(int id) {
+        wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s",id))).click();
+    }
+
+    private void initUserModificationById(int id) {
         WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
         WebElement row = checkbox.findElement(By.xpath("./../.."));
         List<WebElement> cells = row.findElements(By.tagName("td"));

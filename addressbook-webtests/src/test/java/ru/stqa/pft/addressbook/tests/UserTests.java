@@ -1,11 +1,13 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.appManager.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -13,9 +15,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserTests extends TestBase {
 
-    @BeforeTest
+    @BeforeMethod
     public void testUserInit() {
         app.goTo().gotoHomePage();
+        if (app.user().all().size() == 0) {
+            app.user().createUser(new UserData()
+                    .withFirstName("Test1")
+                    .withLastName("Test4")
+                    .withGroup("test1"));
+        }
     }
 
     @Test
@@ -42,6 +50,31 @@ public class UserTests extends TestBase {
 
     }
 
+    @Test
+    public void testUserDetails() {
+        UserData user = app.user().all().iterator().next();
+        UserData contactFromEditForm = app.user().infoFromEditForm(user);
+        List<String> contactInfoFromDetailForm = app.user().infoFromDetailForm(user);
+        List<String> contactInfoFromEditForm = mergeData(contactFromEditForm);
+        assertThat(contactInfoFromDetailForm, equalTo(contactInfoFromEditForm));
+    }
+
+    private List<String> mergeData(UserData user) {
+        String fullName = user.getFirstname() + " " + user.getLastname();
+        String[] address = user.getAddressOne().split("\n");
+        String homePhone = (user.getHomePhone().isEmpty()) ? "" : "H: " + user.getHomePhone();
+        String mobilePhone = (user.getMobilePhone().isEmpty()) ? "" : "M: " + user.getMobilePhone();
+        String workPhone = (user.getWorkPhone().isEmpty())   ? "" : "W: " + user.getWorkPhone();
+        String emailOne = user.getEmailOne();
+        String emailTwo = user.getEmailTwo();
+        String emailThree = user.getEmailThree();
+        List<String> details = new ArrayList<>();
+        details.add(fullName);
+        details.addAll((Arrays.asList(address)));
+        details.addAll(Arrays.asList(homePhone, mobilePhone, workPhone, emailOne, emailTwo, emailThree));
+        return details.stream().map(UserTests::cleaned).filter(s -> ! s.equals("")).collect(Collectors.toList());
+    }
+
     private String mergeAddresses(UserData user) {
         return Arrays.asList(user.getAddressOne(), user.getAddressTwo())
                 .stream().filter((s) -> ! s.equals(""))
@@ -63,7 +96,13 @@ public class UserTests extends TestBase {
                 .collect(Collectors.joining("\n"));
     }
 
-    public static String cleaned(String phone) {
-        return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
+    public static String cleaned(String text) {
+        return text
+                .replaceAll("of", "")
+                .replaceAll("^\\s+|\\s+$", "")
+                .replaceAll(" +\\n", "\n")
+                .replaceAll("\\n +", "\n")
+                .replaceAll("\\s{2,}", " ");
+
     }
 }
