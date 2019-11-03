@@ -11,14 +11,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserCreationTests extends TestBase {
 
-  @Test(enabled = false)
+  @Test
   public void testAddUser() throws Exception {
     app.goToMainPage();
-    Users before = app.user().all();
+    Users before = (Users) app.user().all();
     UserData user = new UserData().withFirstName("Test1").withLastName("Test3");
     app.user().createUser(user);
-    Users after = app.user().all();
-    Assert.assertEquals(after.size(), equalTo(before.size() + 1));
+    Users after = (Users) app.user().all();
+    assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(before.withAdded(user.withId(after.stream().mapToInt((u) -> u.getId()).max().getAsInt()))));
   }
+
+
 }

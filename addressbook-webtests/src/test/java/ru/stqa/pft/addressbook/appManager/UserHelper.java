@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -9,7 +8,6 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,18 +23,8 @@ public class UserHelper extends HelperBase {
     }
 
     public void fillUserForm(UserData userData, boolean creation) {
-        click(By.name("firstname"));
-        clear(By.name("firstname"));
-        wd.findElement(By.name("firstname")).sendKeys(userData.getFirstname());
-        clear(By.name("lastname"));
-        wd.findElement(By.name("lastname")).sendKeys(userData.getLastname());
-        clear(By.name("address"));
-        wd.findElement(By.name("address")).sendKeys(userData.getAddress());
-        clear(By.name("home"));
-        wd.findElement(By.name("home")).sendKeys(userData.getHomePhone());
-        click(By.name("email"));
-        clear(By.name("email"));
-        wd.findElement(By.name("email")).sendKeys(userData.getEmail());
+        type(By.name("firstname"), userData.getFirstname());
+        type(By.name("lastname"), userData.getLastname());
         if (creation) {
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
         } else {
@@ -52,19 +40,26 @@ public class UserHelper extends HelperBase {
         click(By.xpath("//img[@alt='Addressbook']"));
     }
 
-    public void editUser(int index) {
-        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    public void editUser(int id)  {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     public void selectUserById(int id) {
         wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
-    public void deleteUser() { click(By.xpath("(//input[@value='Delete'])")); }
+    public void deleteUser() {
+        click(By.xpath("(//input[@value='Delete'])"));
+    }
 
-    public void updateUser() { click(By.name("update")); }
+    public void updateUser() {
+        click(By.name("update"));
+    }
 
-    public void acceptAlert() { wd.switchTo().alert().accept();; }
+    public void acceptAlert() {
+        wd.switchTo().alert().accept();
+        ;
+    }
 
     public boolean isThereAUser() {
         return isElementPresent(By.name("selected[]"));
@@ -74,7 +69,6 @@ public class UserHelper extends HelperBase {
         addNewUser();
         fillUserForm(user, true);
         submitUserForm();
-        userCache = null;
         goToHomePage();
     }
 
@@ -82,7 +76,6 @@ public class UserHelper extends HelperBase {
         editUser(user.getId());
         fillUserForm(user, false);
         updateUser();
-        userCache = null;
         goToHomePage();
     }
 
@@ -90,25 +83,46 @@ public class UserHelper extends HelperBase {
         selectUserById(user.getId());
         deleteUser();
         acceptAlert();
-        userCache = null;
         goToHomePage();
     }
 
-    private Users userCache = null;
-
-    public Users all() {
-        if (userCache != null) {
-            return new Users(userCache);
-        }
-        userCache = new Users();
+    public Set<UserData> all() {
+        Set<UserData> users = new HashSet<UserData>();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements) {
             List<WebElement> cells = element.findElements(By.tagName("td"));
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            String firstName = cells.get(2).getText();
             String lastName = cells.get(1).getText();
-            userCache.add(new UserData().withId(id).withFirstName(firstName).withLastName(lastName));
+            String firstName = cells.get(2).getText();
+            String allAddresses= cells.get(3).getText();
+            String allEmails = cells.get(4).getText();
+            String allPhones = cells.get(5).getText();
+            users.add(new UserData().withId(id).withFirstName(firstName).withLastName(lastName).withAllAddresses(allAddresses).withAllPhones(allPhones).withAllEmails(allEmails));
         }
-        return new Users(userCache);
+        return users;
+    }
+
+    public UserData infoFromEditForm(UserData user) {
+        initContactModificationById(user.getId());
+        String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String homePhone = wd.findElement(By.name("home")).getAttribute("value");
+        String mobilePhone = wd.findElement(By.name("mobile")).getAttribute("value");
+        String workPhone = wd.findElement(By.name("work")).getAttribute("value");
+        String emailOne = wd.findElement(By.name("email")).getAttribute("value");
+        String emailTwo = wd.findElement(By.name("email2")).getAttribute("value");
+        String emailThree = wd.findElement(By.name("email3")).getAttribute("value");
+        String addressOne = wd.findElement(By.name("address")).getAttribute("value");
+        String addressTwo = wd.findElement(By.name("address2")).getAttribute("value");
+        wd.navigate().back();
+        return new UserData().withId(user.getId()).withFirstName(firstname).withLastName(lastname)
+                .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone).withAddressOne(addressOne).withAddressTwo(addressTwo).withEmailOne(emailOne).withEmailTwo(emailTwo).withEmailThree(emailThree);
+    }
+
+    private void initContactModificationById(int id) {
+        WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+        WebElement row = checkbox.findElement(By.xpath("./../.."));
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        cells.get(7).findElement(By.tagName("a")).click();
     }
 }

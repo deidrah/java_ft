@@ -6,9 +6,17 @@ public class UserData {
     private int id = Integer.MAX_VALUE;
     private String firstname;
     private String lastname;
-    private String address;
+    private String addressOne;
+    private String addressTwo;
+    private String allAddresses;
     private String homePhone;
-    private String email;
+    private String mobilePhone;
+    private String workPhone;
+    private String allPhones;
+    private String emailOne;
+    private String emailTwo;
+    private String emailThree;
+    private String allEmails;
 
     @Override
     public String toString() {
@@ -27,6 +35,16 @@ public class UserData {
         return this;
     }
 
+    public UserData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+    }
+
+    public UserData withAllAddresses(String allAddresses) {
+        this.allAddresses = allAddresses;
+        return this;
+    }
+
     public UserData withFirstName(String firstname) {
         this.firstname = firstname;
         return this;
@@ -37,8 +55,13 @@ public class UserData {
         return this;
     }
 
-    public UserData withAddress(String address) {
-        this.address = address;
+    public UserData withAddressOne(String addressOne) {
+        this.addressOne = addressOne;
+        return this;
+    }
+
+    public UserData withAddressTwo(String addressTwo) {
+        this.addressTwo = addressTwo;
         return this;
     }
 
@@ -47,8 +70,33 @@ public class UserData {
         return this;
     }
 
-    public UserData withEmail(String email) {
-        this.email = email;
+    public UserData withWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+        return this;
+    }
+
+    public UserData withMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+        return this;
+    }
+
+    public UserData withEmailOne(String emailOne) {
+        this.emailOne = emailOne;
+        return this;
+    }
+
+    public UserData withEmailTwo(String emailTwo) {
+        this.emailTwo = emailTwo;
+        return this;
+    }
+
+    public UserData withEmailThree(String emailThree) {
+        this.emailThree = emailThree;
+        return this;
+    }
+
+    public UserData withAllEmails(String allEmails) {
+        this.allEmails = allEmails;
         return this;
     }
 
@@ -82,19 +130,52 @@ public class UserData {
         return lastname;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressOne() {
+        return addressOne;
+    }
+
+    public String getAddressTwo() {
+        return addressTwo;
     }
 
     public String getHomePhone() {
         return homePhone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public String getEmailOne() {
+        return emailOne;
+    }
+
+    public String getEmailTwo() {
+        return emailTwo;
+    }
+
+    public String getEmailThree() {
+        return emailThree;
+    }
+
+    public String getAllEmails() {
+        return allEmails;
+    }
+
+    public String getAllAddresses() {
+        return allAddresses;
     }
 
     public String getGroup() {
         return group;
     }
+
+    public String getAllPhones() {
+        return allPhones;
+    }
 }
+

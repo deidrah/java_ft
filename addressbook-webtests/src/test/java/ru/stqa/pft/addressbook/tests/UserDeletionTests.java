@@ -22,10 +22,10 @@ public class UserDeletionTests extends TestBase {
 
     @Test(enabled = false)
     public void deleteUser() {
-        Users before = app.user().all();
+        Users before = (Users) app.user().all();
         UserData deletedUser = before.iterator().next();
         app.user().delete(deletedUser);
-        Users after = app.user().all();
+        Users after = (Users) app.user().all();
         assertEquals(after.size(), before.size() - 1);
 
         before.remove(deletedUser);
