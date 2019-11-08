@@ -43,7 +43,7 @@ public class UserHelper extends HelperBase {
     }
 
     public void editUser(int id)  {
-        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+        wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
     }
 
     public void selectUserById(int id) {
