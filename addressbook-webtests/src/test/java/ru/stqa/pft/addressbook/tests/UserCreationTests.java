@@ -27,48 +27,52 @@ public class UserCreationTests extends TestBase {
   @DataProvider
   public Iterator<Object[]> validUsersFromCSVFile() throws IOException {
     List<Object[]> list = new ArrayList<>();
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.csv")));
-    String line = reader.readLine();
-    while (line != null){
-      String[] split = line.split(";");
-      list.add(new Object[] {new UserData()
-              .withFirstName(split[0])
-              .withLastName(split[1])
-              .withEmailOne(split[2])
-              .withGroup(split[3])
-              .withMobilePhone(split[4])});
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.csv")))) {
+        String line = reader.readLine();
+        while (line != null) {
+            String[] split = line.split(";");
+            list.add(new Object[]{new UserData()
+                    .withFirstName(split[0])
+                    .withLastName(split[1])
+                    .withEmailOne(split[2])
+                    .withGroup(split[3])
+                    .withMobilePhone(split[4])});
+            line = reader.readLine();
+        }
+        return list.iterator();
     }
-    return list.iterator();
   }
 
   @DataProvider
   public Iterator<Object[]> validUsersFromXMLFile() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.xml")));
-    StringBuilder xml = new StringBuilder();
-    String line = reader.readLine();
-    while (line != null){
-      xml.append(line);
-      line = reader.readLine();
-    }
-    XStream xStream = new XStream();
-    xStream.processAnnotations(UserData.class);
-    List<UserData> users = (List<UserData>)xStream.fromXML(xml.toString());
-    return users.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+      try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.xml")))) {
+          StringBuilder xml = new StringBuilder();
+          String line = reader.readLine();
+          while (line != null) {
+              xml.append(line);
+              line = reader.readLine();
+          }
+          XStream xStream = new XStream();
+          xStream.processAnnotations(UserData.class);
+          List<UserData> users = (List<UserData>) xStream.fromXML(xml.toString());
+          return users.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+      }
   }
 
   @DataProvider
   public Iterator<Object[]> validUsersFromJSONFile() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.json")));
-    StringBuilder json = new StringBuilder();
-    String line = reader.readLine();
-    while (line != null){
-      json.append(line);
-      line = reader.readLine();
-    }
-    Gson gson = new Gson();
-    List<UserData> users = gson.fromJson(json.toString(), new TypeToken<List<UserData>>(){}.getType());  // List<GroupData>.class
-    return users.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+      try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.json")))) {
+          StringBuilder json = new StringBuilder();
+          String line = reader.readLine();
+          while (line != null) {
+              json.append(line);
+              line = reader.readLine();
+          }
+          Gson gson = new Gson();
+          List<UserData> users = gson.fromJson(json.toString(), new TypeToken<List<UserData>>() {
+          }.getType());  // List<GroupData>.class
+          return users.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+      }
   }
 
   @Test(dataProvider = "validUsersFromJSONFile")
