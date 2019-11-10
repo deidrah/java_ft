@@ -1,0 +1,23 @@
+<list>
+  <user>
+    <firstname>Test 0</firstname>
+    <lastname>Testowy 0</lastname>
+    <mobilePhone>43434</mobilePhone>
+    <group>test1</group>
+    <emailOne>test@test.pl0</emailOne>
+  </user>
+  <user>
+    <firstname>Test 1</firstname>
+    <lastname>Testowy 1</lastname>
+    <mobilePhone>43434</mobilePhone>
+    <group>test1</group>
+    <emailOne>test@test.pl1</emailOne>
+  </user>
+  <user>
+    <firstname>Test 2</firstname>
+    <lastname>Testowy 2</lastname>
+    <mobilePhone>43434</mobilePhone>
+    <group>test1</group>
+    <emailOne>test@test.pl2</emailOne>
+  </user>
+</list>

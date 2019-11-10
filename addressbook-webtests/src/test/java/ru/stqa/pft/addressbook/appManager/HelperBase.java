@@ -2,6 +2,8 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.*;
 
+import java.io.File;
+
 public class HelperBase {
 
     public WebDriver wd;
@@ -30,6 +32,12 @@ public class HelperBase {
             if (text != null) {
                 wd.findElement(locator).sendKeys(text);
             }
+        }
+    }
+
+    protected void attach(By locator, File file) {
+        if (file != null) {
+            wd.findElement(locator).sendKeys(file.getAbsolutePath());
         }
     }
 

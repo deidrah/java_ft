@@ -27,6 +27,7 @@ public class UserHelper extends HelperBase {
     public void fillUserForm(UserData userData, boolean creation) {
         type(By.name("firstname"), userData.getFirstname());
         type(By.name("lastname"), userData.getLastname());
+        attach(By.name("photo"), userData.getPhoto());
         if (creation) {
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
         } else {

@@ -1,0 +1,23 @@
+[
+  {
+    "firstname": "Test 0",
+    "lastname": "Testowy 0",
+    "mobilePhone": "43434",
+    "group": "test1",
+    "emailOne": "test@test.pl0"
+  },
+  {
+    "firstname": "Test 1",
+    "lastname": "Testowy 1",
+    "mobilePhone": "43434",
+    "group": "test1",
+    "emailOne": "test@test.pl1"
+  },
+  {
+    "firstname": "Test 2",
+    "lastname": "Testowy 2",
+    "mobilePhone": "43434",
+    "group": "test1",
+    "emailOne": "test@test.pl2"
+  }
+]
