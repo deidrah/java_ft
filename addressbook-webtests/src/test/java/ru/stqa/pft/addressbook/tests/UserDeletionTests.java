@@ -15,17 +15,17 @@ public class UserDeletionTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions() {
         app.goToMainPage();
-        if (! app.user().isThereAUser()) {
+        if (app.db().users().size() == 0) {
             app.user().createUser(new UserData().withFirstName("Test1").withLastName("Test3"));
         }
     }
 
     @Test(enabled = false)
     public void deleteUser() {
-        Users before = (Users) app.user().all();
+        Users before = (Users) app.db().users();
         UserData deletedUser = before.iterator().next();
         app.user().delete(deletedUser);
-        Users after = (Users) app.user().all();
+        Users after = (Users) app.db().users();
         assertEquals(after.size(), before.size() - 1);
 
         before.remove(deletedUser);

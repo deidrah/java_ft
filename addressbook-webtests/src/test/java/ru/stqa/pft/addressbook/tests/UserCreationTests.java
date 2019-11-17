@@ -78,11 +78,11 @@ public class UserCreationTests extends TestBase {
   @Test(dataProvider = "validUsersFromJSONFile")
   public void testAddUser() throws Exception {
     app.goToMainPage();
-    Users before = (Users) app.user().all();
+    Users before = (Users) app.db().users();
     File photo = new File("src/test/resources/stru.png");
     UserData user = new UserData().withFirstName("Test1").withLastName("Test3").withPhoto(photo);
     app.user().createUser(user);
-    Users after = (Users) app.user().all();
+    Users after = (Users) app.db().users();
     assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(before.withAdded(user.withId(after.stream().mapToInt((u) -> u.getId()).max().getAsInt()))));
   }

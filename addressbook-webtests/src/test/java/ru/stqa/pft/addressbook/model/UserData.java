@@ -3,44 +3,89 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Objects;
 
 @XStreamAlias("user")
+@Entity
+@Table(name="addressbook")
 public class UserData {
     @XStreamOmitField
+    @Id
+    @Column(name="id")
     private int id = Integer.MAX_VALUE;
     @Expose
+    @Column(name="firstname")
     private String firstname;
     @Expose
+    @Column(name="lastname")
     private String lastname;
     private String addressOne;
     private String addressTwo;
+    @Transient
     private String allAddresses;
+    @Column(name="home")
+    @Type(type="text")
     private String homePhone;
     @Expose
+    @Column(name="mobile")
+    @Type(type="text")
     private String mobilePhone;
+    @Column(name="work")
+    @Type(type="text")
     private String workPhone;
     @Expose
+    @Transient
     private String group;
+    @Transient
     private String allPhones;
     @Expose
     private String emailOne;
     private String emailTwo;
     private String emailThree;
+    @Transient
     private String allEmails;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserData userData = (UserData) o;
+        return id == userData.id &&
+                Objects.equals(firstname, userData.firstname) &&
+                Objects.equals(lastname, userData.lastname) &&
+                Objects.equals(addressOne, userData.addressOne) &&
+                Objects.equals(addressTwo, userData.addressTwo) &&
+                Objects.equals(homePhone, userData.homePhone) &&
+                Objects.equals(mobilePhone, userData.mobilePhone) &&
+                Objects.equals(workPhone, userData.workPhone) &&
+                Objects.equals(group, userData.group) &&
+                Objects.equals(emailOne, userData.emailOne) &&
+                Objects.equals(emailTwo, userData.emailTwo) &&
+                Objects.equals(emailThree, userData.emailThree) &&
+                Objects.equals(photo, userData.photo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstname, lastname, addressOne, addressTwo, homePhone, mobilePhone, workPhone, group, emailOne, emailTwo, emailThree, photo);
+    }
+
+    @Column(name = "photo")
+    @Type(type="text")
+    private String photo;
+
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public UserData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
-
-    private File photo;
 
     @Override
     public String toString() {
@@ -127,21 +172,6 @@ public class UserData {
     public UserData withGroup(String group) {
         this.group = group;
         return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserData userData = (UserData) o;
-        return id == userData.id &&
-                Objects.equals(firstname, userData.firstname) &&
-                Objects.equals(lastname, userData.lastname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstname, lastname);
     }
 
     public String getFirstname() {
