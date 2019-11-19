@@ -84,8 +84,7 @@ public class UserData {
                 Objects.equals(workPhone, userData.workPhone) &&
                 Objects.equals(emailOne, userData.emailOne) &&
                 Objects.equals(emailTwo, userData.emailTwo) &&
-                Objects.equals(emailThree, userData.emailThree) &&
-                Objects.equals(photo, userData.photo);
+                Objects.equals(emailThree, userData.emailThree);
     }
 
     @Override
