@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.UserData;
-import ru.stqa.pft.addressbook.model.Users;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -29,7 +29,10 @@ public class UserHelper extends HelperBase {
         type(By.name("lastname"), userData.getLastname());
         attach(By.name("photo"), userData.getPhoto());
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
+            if (userData.getGroups().size() > 0) {
+                Assert.assertTrue(userData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroups().iterator().next().getName());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -89,6 +92,37 @@ public class UserHelper extends HelperBase {
         goToHomePage();
     }
 
+    public void addToGroup(UserData addedContact, GroupData group) {
+        selectUserById(addedContact.getId());
+        chooseGroupToAddById(group.getId());
+        addContactToGroup();
+    }
+
+    private void addContactToGroup() {
+        click(By.name("add"));
+    }
+
+    public void deleteFromGroup(UserData deletedContact, GroupData groupBefore) {
+        chooseGroupToDeleteById(groupBefore.getId());
+        selectUserById(deletedContact.getId());
+        deleteContactFromGroup();
+    }
+
+    private void deleteContactFromGroup() {
+        click(By.name("remove"));
+    }
+
+    private void chooseGroupToDeleteById(int id) {
+        new Select(wd.findElement(By.name("group"))).selectByValue(String.valueOf(id));
+    }
+
+    private void chooseGroupToAddById(int id) {
+        new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(id));
+    }
+
+
+
+
     public Set<UserData> all() {
         Set<UserData> users = new HashSet<UserData>();
         List<WebElement> elements = wd.findElements(By.name("entry"));
@@ -115,11 +149,11 @@ public class UserHelper extends HelperBase {
         String emailOne = wd.findElement(By.name("email")).getAttribute("value");
         String emailTwo = wd.findElement(By.name("email2")).getAttribute("value");
         String emailThree = wd.findElement(By.name("email3")).getAttribute("value");
-        String addressOne = wd.findElement(By.name("address")).getAttribute("value");
-        String addressTwo = wd.findElement(By.name("address2")).getAttribute("value");
+        String address1 = wd.findElement(By.name("address")).getAttribute("value");
+        String address2 = wd.findElement(By.name("address2")).getAttribute("value");
         wd.navigate().back();
         return new UserData().withId(user.getId()).withFirstName(firstname).withLastName(lastname)
-                .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone).withAddressOne(addressOne).withAddressTwo(addressTwo).withEmailOne(emailOne).withEmailTwo(emailTwo).withEmailThree(emailThree);
+                .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone).withAddress1(address1).withAddress2(address2).withEmailOne(emailOne).withEmailTwo(emailTwo).withEmailThree(emailThree);
     }
 
     public List<String> infoFromDetailForm(UserData user) {

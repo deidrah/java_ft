@@ -37,7 +37,17 @@ public class DbHelper {
     public Users users() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<UserData> result = session.createQuery("from UserData where deprecated = '0000-00-00").list();
+        List<UserData> result = session.createQuery("from UserData where deprecated = '0000-00-00 00:00:00'").list();
+        session.getTransaction().commit();
+        session.close();
+
+        return new Users(result);
+    }
+
+    public Users usersInGroup() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<UserData> result = session.createQuery("from UserData c where deprecated = '0000-00-00 00:00:00' and size(c.groups) != 0").list();
         session.getTransaction().commit();
         session.close();
 

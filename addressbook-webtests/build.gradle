@@ -21,8 +21,8 @@ dependencies {
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
-    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
-    compile group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.0.0.Alpha2'
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.9.Final'
 
 }
 
@@ -36,6 +36,9 @@ task testGroups(type: Test) {
     if (project.hasProperty('target')) {
         systemProperty 'target', "${target}"
     }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
 }
 
 task testUsers(type: Test) {
@@ -47,5 +50,8 @@ task testUsers(type: Test) {
     }
     if (project.hasProperty('target')) {
         systemProperty 'target', "${target}"
+    }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
     }
 }

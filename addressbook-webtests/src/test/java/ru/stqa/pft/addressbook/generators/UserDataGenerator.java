@@ -70,11 +70,10 @@ public class UserDataGenerator {
     private void saveAsCSV(List<UserData> users, File file) throws IOException {
         try (Writer writer = new FileWriter(file)) {
             for (UserData user : users) {
-                writer.write(String.format("%s;%s;%s;%s;%s;\n",
+                writer.write(String.format("%s;%s;%s;%s;\n",
                         user.getFirstname(),
                         user.getLastname(),
                         user.getEmailOne(),
-                        user.getGroup(),
                         user.getMobilePhone()
                 ));
             }
@@ -88,7 +87,6 @@ public class UserDataGenerator {
                     .withFirstName(String.format("Test %s", i))
                     .withLastName(String.format("Testowy %s", i))
                     .withEmailOne(String.format("test@test.pl%s", i))
-                    .withGroup("test1")
                     .withMobilePhone("43434"));
         }
         return users;

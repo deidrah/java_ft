@@ -35,7 +35,6 @@ public class UserCreationTests extends TestBase {
                     .withFirstName(split[0])
                     .withLastName(split[1])
                     .withEmailOne(split[2])
-                    .withGroup(split[3])
                     .withMobilePhone(split[4])});
             line = reader.readLine();
         }
@@ -78,13 +77,14 @@ public class UserCreationTests extends TestBase {
   @Test(dataProvider = "validUsersFromJSONFile")
   public void testAddUser() throws Exception {
     app.goToMainPage();
-    Users before = (Users) app.db().users();
+    Users before = app.db().users();
     File photo = new File("src/test/resources/stru.png");
     UserData user = new UserData().withFirstName("Test1").withLastName("Test3").withPhoto(photo);
     app.user().createUser(user);
-    Users after = (Users) app.db().users();
+    Users after = app.db().users();
     assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(before.withAdded(user.withId(after.stream().mapToInt((u) -> u.getId()).max().getAsInt()))));
+      verifyUsersListInUI();
   }
   /*
   @Test

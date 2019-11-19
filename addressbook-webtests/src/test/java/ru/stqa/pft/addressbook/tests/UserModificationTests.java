@@ -16,12 +16,14 @@ public class UserModificationTests extends TestBase {
             app.goToMainPage();
             Users before = (Users) app.db().users();
             UserData modifiedUser = before.iterator().next();
-            UserData user = new UserData().withId(modifiedUser.getId()).withFirstName("Test").withLastName("Lalala").withAddressOne("Test 4").withHomePhone("55545555").withEmailOne("test2@test.pl").withGroup("test1");
+            UserData user = new UserData().withId(modifiedUser.getId()).withFirstName("Test").withLastName("Lalala").withAddress1("Test 4").withHomePhone("55545555").withEmailOne("test2@test.pl");
             app.user().modify(user);
             assertThat(app.group().count(), equalTo(before.size()));
             Users after = (Users) app.db().users();
             assertThat(after, equalTo(before.without(modifiedUser).withAdded(user)));
+            verifyUsersListInUI();
         }
+
     }
 
 

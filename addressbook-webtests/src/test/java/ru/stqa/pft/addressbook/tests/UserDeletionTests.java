@@ -31,6 +31,7 @@ public class UserDeletionTests extends TestBase {
         before.remove(deletedUser);
         assertEquals(before, after);
         assertThat(after, equalTo(before.without(deletedUser)));
+        verifyUsersListInUI();
     }
 
 }

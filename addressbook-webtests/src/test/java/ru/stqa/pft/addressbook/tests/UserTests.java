@@ -21,8 +21,7 @@ public class UserTests extends TestBase {
         if (app.user().all().size() == 0) {
             app.user().createUser(new UserData()
                     .withFirstName("Test1")
-                    .withLastName("Test4")
-                    .withGroup("test1"));
+                    .withLastName("Test4"));
         }
     }
 
@@ -61,7 +60,7 @@ public class UserTests extends TestBase {
 
     private List<String> mergeData(UserData user) {
         String fullName = user.getFirstname() + " " + user.getLastname();
-        String[] address = user.getAddressOne().split("\n");
+        String[] address = user.getAddress1().split("\n");
         String homePhone = (user.getHomePhone().isEmpty()) ? "" : "H: " + user.getHomePhone();
         String mobilePhone = (user.getMobilePhone().isEmpty()) ? "" : "M: " + user.getMobilePhone();
         String workPhone = (user.getWorkPhone().isEmpty())   ? "" : "W: " + user.getWorkPhone();
@@ -76,7 +75,7 @@ public class UserTests extends TestBase {
     }
 
     private String mergeAddresses(UserData user) {
-        return Arrays.asList(user.getAddressOne(), user.getAddressTwo())
+        return Arrays.asList(user.getAddress1(), user.getAddress2())
                 .stream().filter((s) -> ! s.equals(""))
                 .map(UserTests::cleaned)
                 .collect(Collectors.joining("\n"));
