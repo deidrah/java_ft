@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.testng/testng
+    compile group: 'org.testng', name: 'testng', version: '7.0.0'
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    // https://mvnrepository.com/artifact/org.hamcrest/java-hamcrest
+    compile group: 'org.hamcrest', name: 'java-hamcrest', version: '2.0.0.0'
+}
+
+test {
+    useTestNG {
+        suites 'src/test/resoures/testng.xml'
+    }
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
+}
