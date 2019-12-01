@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: javax.jws:jsr181-api:1.0-MR1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.jws/jsr181-api/1.0-MR1/401cc1d0e5f0d8f4d0532a54928ceaa27ec21258/jsr181-api-1.0-MR1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.jws/jsr181-api/1.0-MR1/91949f9602ca47ff97f3b269076335a615e0d5e3/jsr181-api-1.0-MR1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,35 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.testng/testng
+    compile group: 'org.testng', name: 'testng', version: '7.0.0'
+    // https://mvnrepository.com/artifact/javax.jms/javax.jms-api
+    compile group: 'javax.jms', name: 'javax.jms-api', version: '2.0.1'
+    // https://mvnrepository.com/artifact/javax.xml.ws/jaxws-api
+    compile group: 'javax.xml.ws', name: 'jaxws-api', version: '2.2.6'
+    // https://mvnrepository.com/artifact/org.glassfish.main.javaee-api/javax.jws
+    compile group: 'org.glassfish.main.javaee-api', name: 'javax.jws', version: '3.1.2.2'
+}
+
+buildscript{
+    repositories{
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'no.nils:wsdl2java:0.9'
+    }
+}
+apply plugin: 'no.nils.wsdl2java'
+
+wsdl2java {
+    generatedWsdlDir = file("src/main/java")  // target directory for generated source coude
+    wsdlDir = file("src/main/resources") // define to support incremental build
+    wsdlsToGenerate = [   //  2d-array of wsdls and cxf-parameters
+                          ['src/main/resources/geoipservice.wsdl'],
+    ]
+}

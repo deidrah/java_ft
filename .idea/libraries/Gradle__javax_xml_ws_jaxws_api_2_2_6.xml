@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: javax.xml.ws:jaxws-api:2.2.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.xml.ws/jaxws-api/2.2.6/78cd627b38d31ee5fee1fc381512216caaada05b/jaxws-api-2.2.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.xml.ws/jaxws-api/2.2.6/1423dc5796d098c6a8d74d99e12155dfb251885b/jaxws-api-2.2.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

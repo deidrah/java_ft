@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: javax.xml.soap:saaj-api:1.3.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.xml.soap/saaj-api/1.3.4/b06a84125b0d7eb4da1f54584bbf48f2e5e9f3ef/saaj-api-1.3.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.xml.soap/saaj-api/1.3.4/9428c4a313b4141488e9672f4ab08a45872770d8/saaj-api-1.3.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
